@@ -82,10 +82,6 @@ class Stream(Monad[A], Generic[A]):
         else:
             return Stream(lambda: itertools.repeat(value, times))
 
-    # ==========================================
-    # OPERACIONES DE TRANSFORMACIÓN
-    # ==========================================
-
     def filter(self, predicate: Callable[[A], bool]) -> 'Stream[A]':
         """Filtra elementos según un predicado."""
 
@@ -154,10 +150,6 @@ class Stream(Monad[A], Generic[A]):
 
         return Stream(new_source)
 
-    # ==========================================
-    # OPERACIONES TERMINALES
-    # ==========================================
-
     def reduce(self, f: Callable[[B, A], B], initial: B) -> B:
         """Reduce el stream a un valor único."""
         result = initial
@@ -196,10 +188,6 @@ class Stream(Monad[A], Generic[A]):
     def all(self, predicate: Callable[[A], bool]) -> bool:
         """Verifica si todos los elementos cumplen el predicado."""
         return all(predicate(item) for item in self._source())
-
-    # ==========================================
-    # COMBINADORES
-    # ==========================================
 
     def zip(self, other: 'Stream[B]') -> 'Stream[tuple[A, B]]':
         """Combina dos streams en tuplas."""

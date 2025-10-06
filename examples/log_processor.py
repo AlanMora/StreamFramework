@@ -14,9 +14,7 @@ from datetime import datetime
 import re
 
 
-# ==========================================
 # MODELOS DE DATOS
-# ==========================================
 
 class LogEntry(NamedTuple):
     """Representa una entrada de log."""
@@ -37,9 +35,7 @@ class LogEntry(NamedTuple):
         return f"[{self.timestamp}] {self.level}: {self.message}"
 
 
-# ==========================================
 # PARSEADORES
-# ==========================================
 
 def parse_log_line(line: str) -> Either[str, LogEntry]:
     """
@@ -71,9 +67,7 @@ def parse_log_line(line: str) -> Either[str, LogEntry]:
         return Either.left(f"Parse error: {str(e)}")
 
 
-# ==========================================
 # PROCESADORES DE STREAMS
-# ==========================================
 
 def read_log_file(filepath: str) -> IO[Stream[str]]:
     """
@@ -134,9 +128,7 @@ def count_by_level(logs: Stream[LogEntry]) -> dict[str, int]:
     }
 
 
-# ==========================================
 # PIPELINE DE ANÁLISIS
-# ==========================================
 
 def analyze_log_file(filepath: str) -> IO[dict]:
     """
@@ -257,9 +249,7 @@ def find_frequent_errors(filepath: str, top_n: int = 10) -> IO[list[tuple[str, i
     return IO(effect)
 
 
-# ==========================================
 # EJEMPLOS DE USO
-# ==========================================
 
 def example_basic_analysis():
     """Ejemplo básico de análisis de logs."""

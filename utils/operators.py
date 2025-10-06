@@ -14,9 +14,7 @@ B = TypeVar('B')
 C = TypeVar('C')
 
 
-# ==========================================
 # COMPOSICIÓN DE FUNCIONES
-# ==========================================
 
 def compose(*functions: Callable) -> Callable:
     """
@@ -54,9 +52,7 @@ def pipe(*functions: Callable) -> Callable:
     return piped
 
 
-# ==========================================
 # CURRYING Y APLICACIÓN PARCIAL
-# ==========================================
 
 def curry(f: Callable) -> Callable:
     """
@@ -100,9 +96,7 @@ def partial(f: Callable, *args, **kwargs) -> Callable:
     return wrapper
 
 
-# ==========================================
 # TRANSFORMACIONES DE LISTAS
-# ==========================================
 
 @curry
 def fmap(f: Callable[[A], B], items: Iterable[A]) -> list[B]:
@@ -171,9 +165,7 @@ def flat_map(f: Callable[[A], Iterable[B]], items: Iterable[A]) -> list[B]:
     return flatten(map(f, items))
 
 
-# ==========================================
 # OPERADORES MATEMÁTICOS FUNCIONALES
-# ==========================================
 
 @curry
 def add(x: int, y: int) -> int:
@@ -211,9 +203,7 @@ def modulo(x: int, y: int) -> int:
     return x % y
 
 
-# ==========================================
 # OPERADORES DE COMPARACIÓN
-# ==========================================
 
 @curry
 def equals(x: Any, y: Any) -> bool:
@@ -251,9 +241,7 @@ def less_or_equal(x: Any, y: Any) -> bool:
     return x <= y
 
 
-# ==========================================
 # UTILIDADES
-# ==========================================
 
 def identity(x: A) -> A:
     """
@@ -344,9 +332,7 @@ def memoize(f: Callable) -> Callable:
     return memoized
 
 
-# ==========================================
 # PREDICADOS COMUNES
-# ==========================================
 
 def is_even(x: int) -> bool:
     """Verifica si un número es par."""

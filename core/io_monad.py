@@ -139,9 +139,7 @@ class IO(Monad[A], Generic[A]):
         return f"IO(<effect>)"
 
 
-# ==========================================
 # CONSTRUCTORES DE IO COMUNES
-# ==========================================
 
 def io_print(message: str) -> IO[None]:
     """IO que imprime un mensaje."""

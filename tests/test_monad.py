@@ -10,9 +10,7 @@ from core.either import Either
 from core.io_monad import IO
 
 
-# ==========================================
 # TESTS PARA EITHER MONAD
-# ==========================================
 
 class TestEitherMonad:
     """Tests para Either Monad."""
@@ -164,9 +162,7 @@ class TestEitherMonad:
         assert isinstance(result._value, Exception)
 
 
-# ==========================================
 # TESTS PARA IO MONAD
-# ==========================================
 
 class TestIOMonad:
     """Tests para IO Monad."""
@@ -341,9 +337,7 @@ class TestIOMonad:
         assert io.run() == 3
 
 
-# ==========================================
 # TESTS DE INTEGRACIÓN
-# ==========================================
 
 class TestMonadIntegration:
     """Tests de integración entre mónadas."""

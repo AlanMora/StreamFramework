@@ -1,7 +1,7 @@
 """
 Ejemplo de procesamiento de datos en tiempo real.
 
-🎯 Stream + IO para análisis de datos en vivo
+ Stream + IO para análisis de datos en vivo
 """
 
 from core.stream import Stream
@@ -36,7 +36,7 @@ class RealtimeProcessor:
     """
     Procesador de datos en tiempo real usando Stream + IO.
 
-    🎯 CASO DE USO: Monitoreo de sensores IoT
+     CASO DE USO: Monitoreo de sensores IoT
     """
 
     @staticmethod
@@ -108,9 +108,9 @@ class RealtimeProcessor:
         """
         Registra una alerta (operación IO).
 
-        🎯 IO para efectos secundarios (logging)
+         IO para efectos secundarios (logging)
         """
-        symbol = '🔴' if alert.level == 'CRITICAL' else '🟡'
+        symbol = '[!]' if alert.level == 'CRITICAL' else '[!]'
         return io_print(f"{symbol} [{alert.level}] {alert.message}")
 
     @staticmethod
@@ -118,12 +118,12 @@ class RealtimeProcessor:
         """
         Simula guardar datos en base de datos.
 
-        🎯 IO para persistencia
+         IO para persistencia
         """
 
         def effect():
             # Simular escritura en DB
-            # print(f"💾 Guardando en DB: {data.sensor_id} - {data.temperature:.1f}°C")
+            # print(f" Guardando en DB: {data.sensor_id} - {data.temperature:.1f}°C")
             pass  # En producción, aquí iría la escritura real
 
         return IO(effect)
@@ -133,14 +133,14 @@ class RealtimeProcessor:
         """
         Envía notificación de alerta (ej: webhook, email).
 
-        🎯 IO para HTTP POST (notificación)
+         IO para HTTP POST (notificación)
         """
 
         def effect():
             try:
                 # En producción, enviaría a un webhook real
                 # response = requests.post('https://alerts.example.com/notify', ...)
-                print(f"📧 Notificación enviada: {alert.message}")
+                print(f" Notificación enviada: {alert.message}")
                 return Either.right(None)
             except Exception as e:
                 return Either.left(e)
@@ -152,7 +152,7 @@ class RealtimeProcessor:
         """
         Pipeline completo de procesamiento en tiempo real.
 
-        🎯 COMPOSICIÓN COMPLETA: Stream + IO + Either
+         COMPOSICIÓN COMPLETA: Stream + IO + Either
 
         Flujo:
         1. Leer stream de sensores
@@ -163,7 +163,7 @@ class RealtimeProcessor:
         """
 
         def effect():
-            print(f"\n🚀 Iniciando monitoreo por {duration} segundos...\n")
+            print(f"\n Iniciando monitoreo por {duration} segundos...\n")
 
             # Contadores
             total_readings = 0
@@ -197,11 +197,11 @@ class RealtimeProcessor:
 
                 # Mostrar lectura normal
                 else:
-                    print(f"✅ {data.sensor_id}: {data.temperature:.1f}°C, {data.humidity:.1f}%")
+                    print(f" {data.sensor_id}: {data.temperature:.1f}°C, {data.humidity:.1f}%")
 
             # Resumen final
             print(f"\n{'=' * 60}")
-            print(f"📊 RESUMEN DEL MONITOREO")
+            print(f" RESUMEN DEL MONITOREO")
             print(f"{'=' * 60}")
             print(f"Total de lecturas: {total_readings}")
             print(f"Total de alertas: {total_alerts}")
@@ -218,7 +218,7 @@ class RealtimeProcessor:
 def ejemplo_monitoring():
     """Ejecuta el sistema de monitoreo."""
     print("\n" + "=" * 60)
-    print("🌡️  SISTEMA DE MONITOREO EN TIEMPO REAL")
+    print("  SISTEMA DE MONITOREO EN TIEMPO REAL")
     print("=" * 60)
 
     # Crear y ejecutar el pipeline

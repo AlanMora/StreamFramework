@@ -1,7 +1,7 @@
 """
 Ejemplos de uso del framework con HTTP.
 
-🎯 AQUÍ SE VE CÓMO SE USA IO MONAD CON HTTP
+ AQUÍ SE VE CÓMO SE USA IO MONAD CON HTTP
 """
 
 from core.http_stream import (
@@ -24,28 +24,28 @@ def ejemplo_fetch_simple():
     """
     Ejemplo básico: Fetch de una API pública.
 
-    🎯 Muestra cómo IO encapsula la petición HTTP
+     Muestra cómo IO encapsula la petición HTTP
     """
     print("\n=== EJEMPLO 1: Fetch Simple ===\n")
 
     # 1. Crear la operación IO (NO se ejecuta todavía)
     fetch_operation = fetch_json('https://api.github.com/users/octocat')
 
-    print("✅ Operación IO creada (aún no ejecutada)")
+    print(" Operación IO creada (aún no ejecutada)")
 
     # 2. Componer con otras operaciones
     program = (
-            io_print("🔄 Fetching datos de GitHub...")
+            io_print(" Fetching datos de GitHub...")
             >> fetch_operation
             .map(lambda either: either.map(lambda data: data.get('name', 'Unknown')))
             .map(lambda either: either.get_or_else('Error fetching'))
-            .flat_map(lambda name: io_print(f"👤 Usuario: {name}"))
+            .flat_map(lambda name: io_print(f" Usuario: {name}"))
     )
 
-    print("✅ Pipeline completo creado (aún no ejecutado)")
+    print(" Pipeline completo creado (aún no ejecutado)")
 
     # 3. Ejecutar TODO de una vez
-    print("\n🚀 Ejecutando pipeline...\n")
+    print("\n Ejecutando pipeline...\n")
     program.run()
 
 
@@ -57,7 +57,7 @@ def ejemplo_multiples_apis():
     """
     Fetches de múltiples APIs y combina resultados.
 
-    🎯 Composición de múltiples operaciones IO
+     Composición de múltiples operaciones IO
     """
     print("\n=== EJEMPLO 2: Múltiples APIs ===\n")
 
@@ -70,13 +70,13 @@ def ejemplo_multiples_apis():
 
     # Crear pipeline
     program = (
-            io_print("🔄 Fetching datos de múltiples usuarios...")
+            io_print(" Fetching datos de múltiples usuarios...")
             >> fetch_all_json(urls)
             .map(lambda results: [
         r.get_or_else({}).get('login', 'Unknown')
         for r in results
     ])
-            .flat_map(lambda usernames: io_print(f"👥 Usuarios: {', '.join(usernames)}"))
+            .flat_map(lambda usernames: io_print(f" Usuarios: {', '.join(usernames)}"))
     )
 
     # Ejecutar
@@ -91,7 +91,7 @@ def ejemplo_http_stream():
     """
     Usa HttpStream para procesar múltiples peticiones.
 
-    🎯 Stream + IO trabajando juntos
+     Stream + IO trabajando juntos
     """
     print("\n=== EJEMPLO 3: HTTP Stream ===\n")
 
@@ -108,7 +108,7 @@ def ejemplo_http_stream():
 
     # Ejecutar y procesar
     program = (
-            io_print("🔄 Procesando repositorios...\n")
+            io_print(" Procesando repositorios...\n")
             >> stream.execute()
             .map(lambda response_stream: response_stream.to_list())
             .map(lambda responses: [
@@ -118,7 +118,7 @@ def ejemplo_http_stream():
         r for r in responses if r and r.is_success()
     ])
             .flat_map(lambda responses:
-                      io_print(f"✅ Fetched {len(responses)} repositorios exitosamente")
+                      io_print(f" Fetched {len(responses)} repositorios exitosamente")
                       )
     )
 
@@ -133,7 +133,7 @@ def ejemplo_con_retry():
     """
     Pipeline con manejo de errores y retry.
 
-    🎯 IO con retry automático
+     IO con retry automático
     """
     print("\n=== EJEMPLO 4: Retry Automático ===\n")
 
@@ -148,12 +148,12 @@ def ejemplo_con_retry():
     )
 
     program = (
-            io_print("🔄 Fetching con retry automático...")
+            io_print(" Fetching con retry automático...")
             >> fetch_with_retry
             .flat_map(lambda either:
                       either
-                      .map(lambda rate: io_print(f"✅ Rate limit: {rate}"))
-                      .get_or_else(io_print("❌ Error después de 3 intentos"))
+                      .map(lambda rate: io_print(f" Rate limit: {rate}"))
+                      .get_or_else(io_print(" Error después de 3 intentos"))
                       )
     )
 
@@ -168,7 +168,7 @@ def ejemplo_agregacion():
     """
     Agrega datos de múltiples endpoints.
 
-    🎯 Composición compleja con IO
+     Composición compleja con IO
     """
     print("\n=== EJEMPLO 5: Agregación de Endpoints ===\n")
 
@@ -186,12 +186,12 @@ def ejemplo_agregacion():
         }
 
     program = (
-            io_print("🔄 Agregando datos de usuario...")
+            io_print(" Agregando datos de usuario...")
             >> HttpPipeline.aggregate_endpoints(endpoints, aggregate_user_data)
             .flat_map(lambda either:
                       either
-                      .map(lambda summary: io_print(f"📊 Resumen: {summary}"))
-                      .get_or_else(io_print("❌ Error en agregación"))
+                      .map(lambda summary: io_print(f" Resumen: {summary}"))
+                      .get_or_else(io_print(" Error en agregación"))
                       )
     )
 
@@ -206,7 +206,7 @@ def ejemplo_paginacion():
     """
     Fetches de datos paginados.
 
-    🎯 IO manejando paginación automáticamente
+     IO manejando paginación automáticamente
     """
     print("\n=== EJEMPLO 6: Datos Paginados ===\n")
 
@@ -214,11 +214,11 @@ def ejemplo_paginacion():
     base_url = 'https://api.github.com/users/octocat/repos'
 
     program = (
-            io_print("🔄 Fetching datos paginados...")
+            io_print(" Fetching datos paginados...")
             >> HttpPipeline.fetch_paginated(base_url, max_pages=3, page_param='page')
             .map(lambda pages: [p for p in pages if p.is_right])
             .flat_map(lambda pages:
-                      io_print(f"✅ Fetched {len(pages)} páginas exitosamente")
+                      io_print(f" Fetched {len(pages)} páginas exitosamente")
                       )
     )
 
@@ -233,7 +233,7 @@ def ejemplo_post_request():
     """
     Envía datos a una API con POST.
 
-    🎯 IO para operaciones POST
+     IO para operaciones POST
     """
     print("\n=== EJEMPLO 7: POST Request ===\n")
 
@@ -251,13 +251,13 @@ def ejemplo_post_request():
     )
 
     program = (
-            io_print("📤 Enviando POST request...")
+            io_print(" Enviando POST request...")
             >> post_operation
             .map(lambda either: either.bind(lambda resp: resp.json()))
             .flat_map(lambda either:
                       either
-                      .map(lambda data: io_print(f"✅ Post creado con ID: {data.get('id')}"))
-                      .get_or_else(io_print("❌ Error en POST"))
+                      .map(lambda data: io_print(f" Post creado con ID: {data.get('id')}"))
+                      .get_or_else(io_print(" Error en POST"))
                       )
     )
 
@@ -272,7 +272,7 @@ def ejemplo_stream_realtime():
     """
     Simula procesamiento de stream en tiempo real.
 
-    🎯 Stream + IO para datos en tiempo real
+     Stream + IO para datos en tiempo real
     """
     print("\n=== EJEMPLO 8: Stream Real-time ===\n")
 
@@ -290,7 +290,7 @@ def ejemplo_stream_realtime():
 
     # Procesar stream
     program = (
-            io_print("🔄 Procesando stream en tiempo real...\n")
+            io_print(" Procesando stream en tiempo real...\n")
             >> IO(lambda:
                   url_stream
                   .map(lambda url: HttpRequest(url=url))
@@ -303,7 +303,7 @@ def ejemplo_stream_realtime():
         r.get_or_else(None) for r in responses if r.is_right
     ])
             .flat_map(lambda valid_responses:
-                      io_print(f"\n✅ Procesadas {len(valid_responses)} respuestas")
+                      io_print(f"\n Procesadas {len(valid_responses)} respuestas")
                       )
     )
 
@@ -318,7 +318,7 @@ def ejemplo_error_handling():
     """
     Manejo completo de errores con Either + IO.
 
-    🎯 IO con manejo robusto de errores
+     IO con manejo robusto de errores
     """
     print("\n=== EJEMPLO 9: Error Handling ===\n")
 
@@ -337,10 +337,10 @@ def ejemplo_error_handling():
         )
 
     program = (
-            io_print("🔄 Fetching con fallback...")
+            io_print(" Fetching con fallback...")
             >> fetch_with_fallback(bad_url, good_url)
             .flat_map(lambda data:
-                      io_print(f"✅ Datos: {data.get('login', 'N/A')}")
+                      io_print(f" Datos: {data.get('login', 'N/A')}")
                       )
     )
 
@@ -355,7 +355,7 @@ def ejemplo_composicion_compleja():
     """
     Pipeline complejo que combina todo.
 
-    🎯 Composición avanzada de Stream + IO + Either
+     Composición avanzada de Stream + IO + Either
     """
     print("\n=== EJEMPLO 10: Composición Compleja ===\n")
 
@@ -375,16 +375,16 @@ def ejemplo_composicion_compleja():
 
     def generate_report(repos: list[dict]) -> str:
         """Genera reporte (función pura)."""
-        lines = ["📊 REPORTE DE REPOSITORIOS", "=" * 40]
+        lines = [" REPORTE DE REPOSITORIOS", "=" * 40]
         for repo in repos:
             stars = repo.get('stargazers_count', 0)
             name = repo.get('name', 'Unknown')
-            lines.append(f"⭐ {name}: {stars} estrellas")
+            lines.append(f" {name}: {stars} estrellas")
         return '\n'.join(lines)
 
     # Pipeline completo
     program = (
-            io_print("🔄 Generando reporte complejo...\n")
+            io_print(" Generando reporte complejo...\n")
             >> get_repos('octocat')
             .map(lambda either: either.get_or_else([]))
             .map(lambda repos: [repo['url'] for repo in repos])
@@ -423,7 +423,7 @@ if __name__ == "__main__":
     ]
 
     print("\n" + "=" * 60)
-    print("🚀 FRAMEWORK DE STREAM PROCESSING CON IO MONAD")
+    print(" FRAMEWORK DE STREAM PROCESSING CON IO MONAD")
     print("=" * 60)
 
     for i, (nombre, ejemplo) in enumerate(ejemplos, 1):
@@ -432,11 +432,11 @@ if __name__ == "__main__":
         try:
             ejemplo()
         except Exception as e:
-            print(f"❌ Error: {e}")
+            print(f" Error: {e}")
 
         if i < len(ejemplos):
             print("\n" + "-" * 60)
 
     print("\n" + "=" * 60)
-    print("✅ TODOS LOS EJEMPLOS COMPLETADOS")
+    print(" TODOS LOS EJEMPLOS COMPLETADOS")
     print("=" * 60 + "\n")

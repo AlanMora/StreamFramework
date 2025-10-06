@@ -66,15 +66,11 @@ class HttpResponse:
         return self.status_code >= 400
 
 
-# ==========================================
 # FUNCIONES IO PARA HTTP
-# ==========================================
 
 def http_request(request: HttpRequest) -> IO[Either[Exception, HttpResponse]]:
     """
     Crea una IO que ejecuta una petición HTTP.
-
-    🎯 AQUÍ SE USA LA IO MONAD PARA HTTP!
 
     La petición NO se ejecuta inmediatamente, solo se describe.
     Se ejecutará cuando se llame a .run()
@@ -156,15 +152,11 @@ def http_delete(url: str, **kwargs) -> IO[Either[Exception, HttpResponse]]:
     return http_request(request)
 
 
-# ==========================================
 # HTTP STREAM - COMBINA STREAM + IO
-# ==========================================
 
 class HttpStream(Generic[A]):
     """
     Stream que procesa peticiones HTTP de manera funcional.
-
-    🎯 COMBINA Stream Monad + IO Monad
 
     Características:
     - Procesamiento lazy de múltiples peticiones
@@ -197,8 +189,6 @@ class HttpStream(Generic[A]):
         """
         Ejecuta todas las peticiones y retorna un stream de respuestas.
 
-        🎯 RETORNA UNA IO QUE CONTIENE UN STREAM!
-
         Returns:
             IO[Stream[Either[Exception, HttpResponse]]]
         """
@@ -217,8 +207,6 @@ class HttpStream(Generic[A]):
     def execute_parallel(self, max_workers: int = 5) -> IO[list[Either[Exception, HttpResponse]]]:
         """
         Ejecuta las peticiones en paralelo.
-
-        🎯 IO con ejecución paralela
 
         Args:
             max_workers: Número máximo de workers concurrentes
@@ -287,15 +275,11 @@ class HttpStream(Generic[A]):
         return "HttpStream(<requests>)"
 
 
-# ==========================================
 # UTILIDADES DE ALTO NIVEL
-# ==========================================
 
 def fetch_json(url: str, **kwargs) -> IO[Either[Exception, dict]]:
     """
     Fetches JSON data from a URL.
-
-    🎯 IO que retorna JSON parseado
 
     Returns:
         IO[Either[Exception, dict]]

@@ -341,7 +341,7 @@ class TestIOFileOperations:
 
     def test_read_write_encoding(self):
         """Test lectura y escritura con encoding."""
-        content = "Hola, ¿cómo estás? 你好"
+        content = "Hola, ¿cómo estás? "
 
         with tempfile.NamedTemporaryFile(mode='w', delete=False, encoding='utf-8') as f:
             filepath = f.name
